@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.frappu.utils'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://m2.dv8tion.net/releases'
+    }
+    maven { url 'https://jitpack.io' }
+    maven { url "https://maven.lavalink.dev/releases" }
+}
+
+dependencies {
+
+    implementation("net.dv8tion:JDA:$jda_version")
+    implementation("dev.arbjerg:lavaplayer:$lava_player_version")
+    implementation("dev.lavalink.youtube:v2:$lavalink_youtube_version")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
