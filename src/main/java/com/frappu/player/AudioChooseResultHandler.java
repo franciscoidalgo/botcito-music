@@ -1,6 +1,6 @@
 package com.frappu.player;
 
-import com.frappu.utils.ColorUtils;
+import com.frappu.utils.ColorConstants;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
@@ -31,7 +31,7 @@ public class AudioChooseResultHandler implements AudioLoadResultHandler {
         .addToQueue(audioTrack);
     AudioTrackInfo info = audioTrack.getInfo();
     EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorUtils.OK)
+        .setColor(ColorConstants.OK)
         .setTitle("Playing")
         .setDescription(info.title + " by " + info.author);
     this.event

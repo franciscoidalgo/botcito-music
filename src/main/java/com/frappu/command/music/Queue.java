@@ -3,7 +3,7 @@ package com.frappu.command.music;
 import com.frappu.command.ICommand;
 import com.frappu.player.GuildMusicManager;
 import com.frappu.player.MusicManagers;
-import com.frappu.utils.ColorUtils;
+import com.frappu.utils.ColorConstants;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -74,7 +74,7 @@ public class Queue implements ICommand {
     }
     AudioTrack audioTrack = queue.get(0);
     EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorUtils.INFO);
+        .setColor(ColorConstants.INFO);
     embedBuilder.setTitle("Queue");
     embedBuilder.setDescription("1. " + audioTrack
         .getInfo().title);

@@ -2,7 +2,7 @@ package com.frappu.utils;
 
 import java.awt.Color;
 
-public class ColorUtils {
+public class ColorConstants {
 
   public static final Color INFO = new Color(25, 118, 210);
 
