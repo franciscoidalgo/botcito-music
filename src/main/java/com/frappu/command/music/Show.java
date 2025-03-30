@@ -3,6 +3,7 @@ package com.frappu.command.music;
 import com.frappu.command.ICommand;
 import com.frappu.player.GuildMusicManager;
 import com.frappu.player.MusicManagers;
+import com.frappu.utils.BotUtils;
 import com.frappu.utils.ColorConstants;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
@@ -81,7 +82,7 @@ public class Show implements ICommand {
         .setColor(ColorConstants.INFO);
     embedBuilder.setTitle("Currently Playing");
     embedBuilder.setDescription("**Name:** " + info.title);
-    embedBuilder.appendDescription("\n**Author:** " + info.author);
+    embedBuilder.appendDescription("\n**Author:** " + BotUtils.removeAuthorSuffix(info.author));
     embedBuilder.appendDescription("\n**Length:** " + length);
     embedBuilder.appendDescription("\n**URL:** " + info.uri);
     event

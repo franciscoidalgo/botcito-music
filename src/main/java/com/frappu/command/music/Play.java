@@ -41,7 +41,7 @@ public class Play implements ICommand {
     try {
       new URI(name);
     } catch (URISyntaxException e) {
-      name = "ytsearch:" + name;
+      name = "ytmsearch:" + name;
     }
 
     event
