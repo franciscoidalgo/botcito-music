@@ -25,19 +25,20 @@ public class AudioForwarder implements AudioSendHandler {
     this.buffer = ByteBuffer.allocate(1024);
     this.frame = new MutableAudioFrame();
     this.frame.setBuffer(this.buffer);
-    this.lastActive = TimeUtils.getEpochSeconds();
+    this.lastActive = 0;
   }
 
   @Override
   public boolean canProvide() {
     boolean canProvide = this.player.provide(this.frame);
     long currentSecondsEpoch = TimeUtils.getEpochSeconds();
-    if (!canProvide) {
+    if (this.lastActive != 0 && !canProvide) {
       long inactiveTimeSeconds = currentSecondsEpoch - this.lastActive;
       if (inactiveTimeSeconds >= 10) {
         this.guild
             .getAudioManager()
             .closeAudioConnection();
+        this.lastActive = 0;
       }
 
     } else {
