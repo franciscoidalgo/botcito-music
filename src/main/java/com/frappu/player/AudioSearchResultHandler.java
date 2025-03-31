@@ -1,6 +1,7 @@
 package com.frappu.player;
 
-import com.frappu.utils.ColorUtils;
+import com.frappu.utils.BotUtils;
+import com.frappu.utils.ColorConstants;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
@@ -33,9 +34,9 @@ public class AudioSearchResultHandler implements AudioLoadResultHandler {
         .addToQueue(audioTrack);
     AudioTrackInfo info = audioTrack.getInfo();
     EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorUtils.OK)
+        .setColor(ColorConstants.OK)
         .setTitle("Playing")
-        .setDescription(info.title + " by " + info.author);
+        .setDescription(BotUtils.getSongLabel(info));
     this.event
         .getHook()
         .sendMessageEmbeds(embedBuilder.build())
@@ -53,7 +54,7 @@ public class AudioSearchResultHandler implements AudioLoadResultHandler {
     audioOptions.forEach(audioTrack -> {
       AudioTrackInfo trackInfo = audioTrack
           .getInfo();
-      String label = trackInfo.title + " by " + trackInfo.author;
+      String label = BotUtils.getSongLabel(trackInfo);
       if (label.length() >= 100) {
         label = label.substring(0, 99);
       }

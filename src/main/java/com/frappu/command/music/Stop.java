@@ -4,7 +4,7 @@ import com.frappu.command.ICommand;
 import com.frappu.player.GuildMusicManager;
 import com.frappu.player.MusicManagers;
 import com.frappu.player.TrackScheduler;
-import com.frappu.utils.ColorUtils;
+import com.frappu.utils.ColorConstants;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -67,7 +67,7 @@ public class Stop implements ICommand {
     trackScheduler.stopMusic();
 
     EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorUtils.ERROR)
+        .setColor(ColorConstants.ERROR)
         .setTitle("Stop")
         .setDescription("Stopped playing music");
 

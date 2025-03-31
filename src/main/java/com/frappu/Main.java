@@ -1,12 +1,7 @@
 package com.frappu;
 
-import com.frappu.command.music.Kick;
-import com.frappu.command.music.Pause;
-import com.frappu.command.music.Play;
-import com.frappu.command.music.Queue;
-import com.frappu.command.music.Show;
-import com.frappu.command.music.Skip;
-import com.frappu.command.music.Stop;
+import com.frappu.command.Help;
+import com.frappu.command.music.MusicCommands;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -20,7 +15,8 @@ public class Main {
         .createDefault(token)
         .build();
     CommandManager commandManager = new CommandManager();
-    commandManager.addCommands(new Play(), new Stop(), new Pause(), new Skip(), new Kick(), new Show(), new Queue());
+    commandManager.addCommands(MusicCommands.get());
+    commandManager.addCommands(new Help());
     jda.addEventListener(commandManager);
   }
 

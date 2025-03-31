@@ -4,8 +4,8 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -18,7 +18,7 @@ public enum MusicManagers {
   private final AudioPlayerManager audioPlayerManager;
 
   MusicManagers() {
-    this.musicManagers = new HashMap<>();
+    this.musicManagers = new ConcurrentHashMap<>();
     this.audioPlayerManager = new DefaultAudioPlayerManager();
     YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
     this.audioPlayerManager.registerSourceManager(youtubeAudioSourceManager);
