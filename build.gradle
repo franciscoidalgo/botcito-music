@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = 'com.frappu.utils'
@@ -29,4 +31,17 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass = 'com.frappu.Main'
+}
+
+shadowJar {
+    archiveBaseName = 'app'
+    archiveVersion = '0.0.1'
+}
+
+tasks.build {
+    dependsOn shadowJar
 }
