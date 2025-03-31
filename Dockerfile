@@ -1,6 +1,5 @@
-ARG DISC_TOKEN
 
-FROM gradle:8-jdk-21-and-22-alpine AS BUILD
+FROM gradle:8-jdk-21-and-22-alpine AS build
 WORKDIR /app
 COPY gradlew .
 COPY gradle gradle
@@ -14,6 +13,5 @@ RUN ./gradlew clean shadowJar --no-daemon
 
 FROM amazoncorretto:21-alpine
 WORKDIR /app
-COPY --from=BUILD /app/build/libs/*.jar /app/app.jar
-ENV DISCORD_BOT_TOKEN=$DISC_TOKEN
+COPY --from=build /app/build/libs/*.jar /app/app.jar
 CMD ["java", "-jar", "app.jar"]
