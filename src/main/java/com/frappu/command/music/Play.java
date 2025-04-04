@@ -2,12 +2,11 @@ package com.frappu.command.music;
 
 import com.frappu.command.ICommand;
 import com.frappu.player.MusicManagers;
+import com.frappu.utils.BotUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
-import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -38,12 +37,17 @@ public class Play implements ICommand {
     String name = event
         .getOption("name")
         .getAsString();
+    boolean isSearch = false;
     try {
       new URI(name);
     } catch (URISyntaxException e) {
       name = "ytmsearch:" + name;
+      isSearch = true;
     }
 
+    if (!isSearch && !BotUtils.validateAndConnectToVoice(event)) {
+      return;
+    }
     event
         .deferReply()
         .queue();
@@ -53,33 +57,8 @@ public class Play implements ICommand {
 
   @Override
   public void onSelection(StringSelectInteractionEvent event) {
-    Member member = event.getMember();
-    GuildVoiceState memberVoiceState = member.getVoiceState();
-
-    if (!memberVoiceState.inAudioChannel()) {
-      event
-          .reply("You need to be in a voice channel")
-          .queue();
+    if (!BotUtils.validateAndConnectToVoice(event)) {
       return;
-    }
-
-    Member self = event
-        .getGuild()
-        .getSelfMember();
-    GuildVoiceState selfVoiceState = self.getVoiceState();
-
-    if (!selfVoiceState.inAudioChannel()) {
-      event
-          .getGuild()
-          .getAudioManager()
-          .openAudioConnection(memberVoiceState.getChannel());
-    } else {
-      if (selfVoiceState.getChannel() != memberVoiceState.getChannel()) {
-        event
-            .reply("You need to be in the same channel as me")
-            .queue();
-        return;
-      }
     }
 
     String selectedUri = event

@@ -43,12 +43,13 @@ public enum MusicManagers {
 
   public void play(SlashCommandInteractionEvent event, String trackUrl) {
     GuildMusicManager musicManager = this.getGuildMusicManager(event.getGuild());
-    this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioSearchResultHandler(musicManager, event));
+    this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new SearchTrackResultHandler(musicManager, event));
+
   }
 
   public void play(StringSelectInteractionEvent event, String trackUrl) {
     GuildMusicManager musicManager = this.getGuildMusicManager(event.getGuild());
-    this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioChooseResultHandler(musicManager, event));
+    this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new SelectTrackResultHandler(musicManager, event));
   }
 
 }

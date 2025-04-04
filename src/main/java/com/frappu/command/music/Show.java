@@ -3,8 +3,8 @@ package com.frappu.command.music;
 import com.frappu.command.ICommand;
 import com.frappu.player.GuildMusicManager;
 import com.frappu.player.MusicManagers;
+import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
-import com.frappu.utils.ColorConstants;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import java.util.List;
@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class Show implements ICommand {
 
@@ -77,14 +76,13 @@ public class Show implements ICommand {
     }
     AudioTrackInfo info = audioTrack
         .getInfo();
-    String length = DurationFormatUtils.formatDuration(info.length, "mm:ss", true);
-    EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorConstants.INFO);
-    embedBuilder.setTitle("Currently Playing");
-    embedBuilder.setDescription("**Name:** " + info.title);
-    embedBuilder.appendDescription("\n**Author:** " + BotUtils.removeAuthorSuffix(info.author));
-    embedBuilder.appendDescription("\n**Length:** " + length);
-    embedBuilder.appendDescription("\n**URL:** " + info.uri);
+    EmbedBuilder embedBuilder = BotUtils
+        .buildEmbed(BotColor.INFO)
+        .setTitle("Currently Playing")
+        .setDescription("**Name:** " + info.title)
+        .appendDescription("\n**Author:** " + BotUtils.removeAuthorSuffix(info.author))
+        .appendDescription("\n**Length:** " + BotUtils.getFormattedLength(info.length))
+        .appendDescription("\n**URL:** " + info.uri);
     event
         .replyEmbeds(embedBuilder.build())
         .queue();
