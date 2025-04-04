@@ -3,8 +3,8 @@ package com.frappu.command.music;
 import com.frappu.command.ICommand;
 import com.frappu.player.GuildMusicManager;
 import com.frappu.player.MusicManagers;
+import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
-import com.frappu.utils.ColorConstants;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -74,11 +74,11 @@ public class Queue implements ICommand {
       return;
     }
     AudioTrack audioTrack = queue.get(0);
-    EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorConstants.INFO);
-    embedBuilder.setTitle("Queue");
-    embedBuilder.setDescription("1. " + audioTrack
-        .getInfo().title);
+    EmbedBuilder embedBuilder = BotUtils
+        .buildEmbed(BotColor.INFO)
+        .setTitle("Queue")
+        .setDescription("1. " + audioTrack
+            .getInfo().title);
     for (int i = 1; i < queue.size(); i++) {
       audioTrack = queue.get(i);
       embedBuilder.appendDescription("\n" + (i + 1) + ". " + BotUtils.getSongLabel(audioTrack.getInfo()));

@@ -1,7 +1,8 @@
 package com.frappu.command;
 
 import com.frappu.command.music.MusicCommands;
-import com.frappu.utils.ColorConstants;
+import com.frappu.utils.BotColor;
+import com.frappu.utils.BotUtils;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -26,8 +27,8 @@ public class Help implements ICommand {
 
   @Override
   public void execute(SlashCommandInteractionEvent event) {
-    EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorConstants.INFO)
+    EmbedBuilder embedBuilder = BotUtils
+        .buildEmbed(BotColor.INFO)
         .setTitle("Music commands")
         .setDescription("Available commands:");
 

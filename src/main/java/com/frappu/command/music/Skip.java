@@ -4,7 +4,8 @@ import com.frappu.command.ICommand;
 import com.frappu.player.GuildMusicManager;
 import com.frappu.player.MusicManagers;
 import com.frappu.player.TrackScheduler;
-import com.frappu.utils.ColorConstants;
+import com.frappu.utils.BotColor;
+import com.frappu.utils.BotUtils;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -65,8 +66,8 @@ public class Skip implements ICommand {
         .getGuildMusicManager(event.getGuild());
     TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
     trackScheduler.skip();
-    EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setColor(ColorConstants.WARN)
+    EmbedBuilder embedBuilder = BotUtils
+        .buildEmbed(BotColor.WARN)
         .setTitle("Skip")
         .setDescription("Song skipped");
 
