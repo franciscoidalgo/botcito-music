@@ -1,12 +1,11 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
-import com.frappu.player.GuildMusicManager;
-import com.frappu.player.MusicManagers;
+import com.frappu.app.command.ICommand;
+import com.frappu.module.music.player.GuildMusicManager;
+import com.frappu.module.music.player.MusicManagers;
+import com.frappu.module.music.player.TrackScheduler;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -14,16 +13,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-public class Show implements ICommand {
+public class Skip implements ICommand {
 
   @Override
   public String getName() {
-    return "show";
+    return "skip";
   }
 
   @Override
   public String getDescription() {
-    return "Que onda";
+    return "El que sigue";
   }
 
   @Override
@@ -65,24 +64,13 @@ public class Show implements ICommand {
     GuildMusicManager guildMusicManager = MusicManagers
         .get()
         .getGuildMusicManager(event.getGuild());
-    AudioTrack audioTrack = guildMusicManager
-        .getTrackScheduler()
-        .getPlayingTrack();
-    if (audioTrack == null) {
-      event
-          .reply("I am not playing anything")
-          .queue();
-      return;
-    }
-    AudioTrackInfo info = audioTrack
-        .getInfo();
+    TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
+    trackScheduler.skip();
     EmbedBuilder embedBuilder = BotUtils
-        .buildEmbed(BotColor.INFO)
-        .setTitle("Currently Playing")
-        .setDescription("**Name:** " + info.title)
-        .appendDescription("\n**Author:** " + BotUtils.removeAuthorSuffix(info.author))
-        .appendDescription("\n**Length:** " + BotUtils.getFormattedLength(info.length))
-        .appendDescription("\n**URL:** " + info.uri);
+        .buildEmbed(BotColor.WARN)
+        .setTitle("Skip")
+        .setDescription("Song skipped");
+
     event
         .replyEmbeds(embedBuilder.build())
         .queue();

@@ -1,11 +1,11 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
-import com.frappu.player.GuildMusicManager;
-import com.frappu.player.MusicManagers;
+import com.frappu.app.command.ICommand;
+import com.frappu.module.music.player.GuildMusicManager;
+import com.frappu.module.music.player.MusicManagers;
+import com.frappu.module.music.player.TrackScheduler;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -13,16 +13,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-public class Queue implements ICommand {
+public class Stop implements ICommand {
 
   @Override
   public String getName() {
-    return "queue";
+    return "stop";
   }
 
   @Override
   public String getDescription() {
-    return "Que sigue";
+    return "Pero para un cachito";
   }
 
   @Override
@@ -64,25 +64,14 @@ public class Queue implements ICommand {
     GuildMusicManager guildMusicManager = MusicManagers
         .get()
         .getGuildMusicManager(event.getGuild());
-    List<AudioTrack> queue = guildMusicManager
-        .getTrackScheduler()
-        .getQueue();
-    if (queue == null || queue.isEmpty()) {
-      event
-          .reply("There's nothing in queue")
-          .queue();
-      return;
-    }
-    AudioTrack audioTrack = queue.get(0);
+    TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
+    trackScheduler.stopMusic();
+
     EmbedBuilder embedBuilder = BotUtils
-        .buildEmbed(BotColor.INFO)
-        .setTitle("Queue")
-        .setDescription("1. " + audioTrack
-            .getInfo().title);
-    for (int i = 1; i < queue.size(); i++) {
-      audioTrack = queue.get(i);
-      embedBuilder.appendDescription("\n" + (i + 1) + ". " + BotUtils.getSongLabel(audioTrack.getInfo()));
-    }
+        .buildEmbed(BotColor.ERROR)
+        .setTitle("Stop")
+        .setDescription("Stopped playing music");
+
     event
         .replyEmbeds(embedBuilder.build())
         .queue();

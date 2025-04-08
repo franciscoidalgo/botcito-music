@@ -1,11 +1,12 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
-import com.frappu.player.GuildMusicManager;
-import com.frappu.player.MusicManagers;
-import com.frappu.player.TrackScheduler;
+import com.frappu.app.command.ICommand;
+import com.frappu.module.music.player.GuildMusicManager;
+import com.frappu.module.music.player.MusicManagers;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -13,16 +14,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-public class Stop implements ICommand {
+public class Show implements ICommand {
 
   @Override
   public String getName() {
-    return "stop";
+    return "show";
   }
 
   @Override
   public String getDescription() {
-    return "Pero para un cachito";
+    return "Que onda";
   }
 
   @Override
@@ -64,14 +65,24 @@ public class Stop implements ICommand {
     GuildMusicManager guildMusicManager = MusicManagers
         .get()
         .getGuildMusicManager(event.getGuild());
-    TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
-    trackScheduler.stopMusic();
-
+    AudioTrack audioTrack = guildMusicManager
+        .getTrackScheduler()
+        .getPlayingTrack();
+    if (audioTrack == null) {
+      event
+          .reply("I am not playing anything")
+          .queue();
+      return;
+    }
+    AudioTrackInfo info = audioTrack
+        .getInfo();
     EmbedBuilder embedBuilder = BotUtils
-        .buildEmbed(BotColor.ERROR)
-        .setTitle("Stop")
-        .setDescription("Stopped playing music");
-
+        .buildEmbed(BotColor.INFO)
+        .setTitle("Currently Playing")
+        .setDescription("**Name:** " + info.title)
+        .appendDescription("\n**Author:** " + BotUtils.removeAuthorSuffix(info.author))
+        .appendDescription("\n**Length:** " + BotUtils.getFormattedLength(info.length))
+        .appendDescription("\n**URL:** " + info.uri);
     event
         .replyEmbeds(embedBuilder.build())
         .queue();

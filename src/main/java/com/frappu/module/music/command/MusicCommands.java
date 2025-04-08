@@ -1,6 +1,6 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
+import com.frappu.app.command.ICommand;
 
 public final class MusicCommands {
 

@@ -1,6 +1,6 @@
-package com.frappu;
+package com.frappu.app;
 
-import com.frappu.command.ICommand;
+import com.frappu.app.command.ICommand;
 import java.util.HashMap;
 import java.util.Map;
 import net.dv8tion.jda.api.entities.Guild;

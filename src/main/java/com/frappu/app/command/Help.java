@@ -1,14 +1,25 @@
-package com.frappu.command;
+package com.frappu.app.command;
 
-import com.frappu.command.music.MusicCommands;
+import com.frappu.app.IModule;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
+import java.util.Arrays;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class Help implements ICommand {
+
+  private final List<ICommand> commands;
+
+  public Help(IModule... modules) {
+    this.commands = Arrays
+        .stream(modules)
+        .map(IModule::getCommands)
+        .flatMap(Arrays::stream)
+        .toList();
+  }
 
   @Override
   public String getName() {
@@ -32,7 +43,7 @@ public class Help implements ICommand {
         .setTitle("Music commands")
         .setDescription("Available commands:");
 
-    for (ICommand musicCommand : MusicCommands.get()) {
+    for (ICommand musicCommand : this.commands) {
       if (!musicCommand
           .getName()
           .equals(this.getName())) {

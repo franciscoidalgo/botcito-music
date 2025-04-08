@@ -1,4 +1,4 @@
-package com.frappu.player;
+package com.frappu.module.music.player;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;

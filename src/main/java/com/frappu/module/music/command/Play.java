@@ -1,7 +1,7 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
-import com.frappu.player.MusicManagers;
+import com.frappu.app.command.ICommand;
+import com.frappu.module.music.player.MusicManagers;
 import com.frappu.utils.BotUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 public class Play implements ICommand {
 
   private static final List<OptionData> OPTIONS = Collections.singletonList(
-      new OptionData(OptionType.STRING, "name", "Name of the song", true));
+      new OptionData(OptionType.STRING, "query", "Name of the song or url", true));
 
   @Override
   public String getName() {

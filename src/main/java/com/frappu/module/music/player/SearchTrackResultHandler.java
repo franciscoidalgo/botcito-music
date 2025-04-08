@@ -1,4 +1,4 @@
-package com.frappu.player;
+package com.frappu.module.music.player;
 
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;

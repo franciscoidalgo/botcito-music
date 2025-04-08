@@ -1,11 +1,6 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
-import com.frappu.player.GuildMusicManager;
-import com.frappu.player.MusicManagers;
-import com.frappu.player.TrackScheduler;
-import com.frappu.utils.BotColor;
-import com.frappu.utils.BotUtils;
+import com.frappu.app.command.ICommand;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -13,16 +8,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-public class Skip implements ICommand {
+public class Kick implements ICommand {
 
   @Override
   public String getName() {
-    return "skip";
+    return "kick";
   }
 
   @Override
   public String getDescription() {
-    return "El que sigue";
+    return "Toca de aca";
   }
 
   @Override
@@ -60,20 +55,19 @@ public class Skip implements ICommand {
           .queue();
       return;
     }
-
-    GuildMusicManager guildMusicManager = MusicManagers
-        .get()
-        .getGuildMusicManager(event.getGuild());
-    TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
-    trackScheduler.skip();
-    EmbedBuilder embedBuilder = BotUtils
-        .buildEmbed(BotColor.WARN)
-        .setTitle("Skip")
-        .setDescription("Song skipped");
+    EmbedBuilder embedBuilder = new EmbedBuilder()
+        .setTitle("Kick")
+        .setDescription("Bye...");
 
     event
         .replyEmbeds(embedBuilder.build())
         .queue();
+
+    event
+        .getGuild()
+        .getAudioManager()
+        .closeAudioConnection();
+
   }
 
 }

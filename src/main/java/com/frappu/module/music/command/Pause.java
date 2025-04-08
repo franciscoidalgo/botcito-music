@@ -1,23 +1,25 @@
-package com.frappu.command.music;
+package com.frappu.module.music.command;
 
-import com.frappu.command.ICommand;
+import com.frappu.app.command.ICommand;
+import com.frappu.module.music.player.GuildMusicManager;
+import com.frappu.module.music.player.MusicManagers;
+import com.frappu.module.music.player.TrackScheduler;
 import java.util.List;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-public class Kick implements ICommand {
+public class Pause implements ICommand {
 
   @Override
   public String getName() {
-    return "kick";
+    return "toggle-pause";
   }
 
   @Override
   public String getDescription() {
-    return "Toca de aca";
+    return "Banca un toque";
   }
 
   @Override
@@ -55,19 +57,16 @@ public class Kick implements ICommand {
           .queue();
       return;
     }
-    EmbedBuilder embedBuilder = new EmbedBuilder()
-        .setTitle("Kick")
-        .setDescription("Bye...");
 
+    GuildMusicManager guildMusicManager = MusicManagers
+        .get()
+        .getGuildMusicManager(event.getGuild());
+    TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
+    boolean isPaused = trackScheduler.togglePause();
+    String message = isPaused ? "Music paused" : "Music resumed";
     event
-        .replyEmbeds(embedBuilder.build())
+        .reply(message)
         .queue();
-
-    event
-        .getGuild()
-        .getAudioManager()
-        .closeAudioConnection();
-
   }
 
 }
