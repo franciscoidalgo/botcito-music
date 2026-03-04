@@ -32,13 +32,12 @@ public class CommandManager extends ListenerAdapter {
         .execute(event);
   }
 
-
   @Override
   public void onStringSelectInteraction(StringSelectInteractionEvent event) {
     this.commands
         .get(event
                  .getSelectMenu()
-                 .getId())
+                 .getCustomId())
         .onSelection(event);
   }
 
@@ -49,21 +48,21 @@ public class CommandManager extends ListenerAdapter {
   }
 
   private void configureGuildCommands(Guild guild) {
-    this.commands.forEach((commandName, command) -> {
-      if (command.getOptions() == null || command
-          .getOptions()
-          .isEmpty()) {
-        guild
-            .upsertCommand(commandName, command.getDescription())
-            .queue();
-      } else {
-        guild
-            .upsertCommand(commandName, command.getDescription())
-            .addOptions(command.getOptions())
-            .queue();
-      }
-    });
+    this.commands.forEach(
+        (commandName, command) -> {
+          if (command.getOptions() == null || command
+              .getOptions()
+              .isEmpty()) {
+            guild
+                .upsertCommand(commandName, command.getDescription())
+                .queue();
+          } else {
+            guild
+                .upsertCommand(commandName, command.getDescription())
+                .addOptions(command.getOptions())
+                .queue();
+          }
+        });
   }
-
 
 }

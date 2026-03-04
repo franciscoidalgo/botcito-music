@@ -9,8 +9,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,25 +23,21 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
 
   private final SlashCommandInteractionEvent event;
 
-  public SearchTrackResultHandler(GuildMusicManager musicManager, SlashCommandInteractionEvent event) {
+  public SearchTrackResultHandler(
+      GuildMusicManager musicManager, SlashCommandInteractionEvent event) {
     this.musicManager = musicManager;
     this.event = event;
   }
 
   @Override
   public void trackLoaded(AudioTrack audioTrack) {
-    this.musicManager
-        .getTrackScheduler()
-        .addToQueue(audioTrack);
+    this.musicManager.getTrackScheduler().addToQueue(audioTrack);
     AudioTrackInfo info = audioTrack.getInfo();
-    EmbedBuilder embedBuilder = BotUtils
-        .buildEmbed(BotColor.OK)
-        .setTitle("Playing")
-        .setDescription(BotUtils.getSongLabel(info));
-    this.event
-        .getHook()
-        .sendMessageEmbeds(embedBuilder.build())
-        .queue();
+    EmbedBuilder embedBuilder =
+        BotUtils.buildEmbed(BotColor.OK)
+            .setTitle("Playing")
+            .setDescription(BotUtils.getSongLabel(info));
+    this.event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
   }
 
   @Override
@@ -54,54 +51,40 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
 
   @Override
   public void noMatches() {
-    this.event
-        .getHook()
-        .sendMessage("No track found")
-        .queue();
+    this.event.getHook().sendMessage("No track found").queue();
   }
 
   @Override
   public void loadFailed(FriendlyException e) {
-    this.event
-        .getHook()
-        .sendMessage("There was an error loading the track")
-        .queue();
+    this.event.getHook().sendMessage("There was an error loading the track").queue();
     log.error("Error loading track", e);
   }
 
   public void showOptionsMenu(List<AudioTrack> tracks) {
-    List<AudioTrack> audioOptions = tracks
-        .subList(0, 5);
-    StringSelectMenu.Builder selectMenu = StringSelectMenu
-        .create(this.event.getName());
-    audioOptions.forEach(audioTrack -> {
-      AudioTrackInfo trackInfo = audioTrack
-          .getInfo();
-      String label = BotUtils.getSongLabel(trackInfo);
-      if (label.length() >= 100) {
-        label = label.substring(0, 99);
-      }
-      selectMenu.addOption(label, trackInfo.uri);
-    });
+    List<AudioTrack> audioOptions = tracks.subList(0, 5);
+    StringSelectMenu.Builder selectMenu = StringSelectMenu.create(this.event.getName());
+    audioOptions.forEach(
+        audioTrack -> {
+          AudioTrackInfo trackInfo = audioTrack.getInfo();
+          String label = BotUtils.getSongLabel(trackInfo);
+          if (label.length() >= 100) {
+            label = label.substring(0, 99);
+          }
+          selectMenu.addOption(label, trackInfo.uri);
+        });
     this.event
         .getHook()
         .sendMessage("Choose a song")
-        .addActionRow(selectMenu.build())
+        .addComponents(ActionRow.of(selectMenu.build()))
         .queue();
   }
 
   public void queuePlaylist(AudioPlaylist audioPlaylist, TrackScheduler trackScheduler) {
-    audioPlaylist
-        .getTracks()
-        .forEach(trackScheduler::addToQueue);
-    EmbedBuilder embedBuilder = BotUtils
-        .buildEmbed(BotColor.INFO)
-        .setTitle("Playing")
-        .setDescription(BotUtils.getPlaylistLabel(audioPlaylist));
-    this.event
-        .getHook()
-        .sendMessageEmbeds(embedBuilder.build())
-        .queue();
+    audioPlaylist.getTracks().forEach(trackScheduler::addToQueue);
+    EmbedBuilder embedBuilder =
+        BotUtils.buildEmbed(BotColor.INFO)
+            .setTitle("Playing")
+            .setDescription(BotUtils.getPlaylistLabel(audioPlaylist));
+    this.event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
   }
-
 }

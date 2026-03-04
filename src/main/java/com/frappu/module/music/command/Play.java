@@ -14,8 +14,9 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class Play implements ICommand {
 
-  private static final List<OptionData> OPTIONS = Collections.singletonList(
-      new OptionData(OptionType.STRING, "query", "Name of the song or url", true));
+  private static final List<OptionData> OPTIONS =
+      Collections.singletonList(
+          new OptionData(OptionType.STRING, "query", "Name of the song or url", true));
 
   @Override
   public String getName() {
@@ -35,7 +36,7 @@ public class Play implements ICommand {
   @Override
   public void execute(SlashCommandInteractionEvent event) {
     String name = event
-        .getOption("name")
+        .getOption("query")
         .getAsString();
     boolean isSearch = false;
     try {
@@ -63,7 +64,7 @@ public class Play implements ICommand {
 
     String selectedUri = event
         .getSelectedOptions()
-        .get(0)
+        .getFirst()
         .getValue();
 
     event

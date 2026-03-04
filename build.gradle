@@ -23,6 +23,9 @@ dependencies {
     implementation("dev.lavalink.youtube:v2:$lavalink_youtube_version")
     implementation("ch.qos.logback:logback-classic:1.5.18")
     implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation("club.minnced:jdave-api:$libdave_version")
+
+    implementation("club.minnced:jdave-native-win-x86-64:$libdave_version")
 
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -44,4 +47,10 @@ shadowJar {
 
 tasks.build {
     dependsOn shadowJar
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
