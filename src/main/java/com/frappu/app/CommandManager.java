@@ -1,13 +1,17 @@
 package com.frappu.app;
 
 import com.frappu.app.command.ICommand;
+import com.frappu.app.command.IOption;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class CommandManager extends ListenerAdapter {
 
@@ -50,16 +54,18 @@ public class CommandManager extends ListenerAdapter {
   private void configureGuildCommands(Guild guild) {
     this.commands.forEach(
         (commandName, command) -> {
-          if (command.getOptions() == null || command
-              .getOptions()
-              .isEmpty()) {
+          if (command.getOptions().length == 0) {
             guild
                 .upsertCommand(commandName, command.getDescription())
                 .queue();
           } else {
+            List<OptionData> options = Arrays
+                .stream(command.getOptions())
+                .map(IOption::getOptionData)
+                .toList();
             guild
                 .upsertCommand(commandName, command.getDescription())
-                .addOptions(command.getOptions())
+                .addOptions(options)
                 .queue();
           }
         });

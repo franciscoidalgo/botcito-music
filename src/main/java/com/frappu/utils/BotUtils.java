@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
@@ -76,6 +77,40 @@ public final class BotUtils {
   public static EmbedBuilder buildEmbed(BotColor color) {
     return new EmbedBuilder()
         .setColor(color.get());
+  }
+
+
+  public static boolean validateIsInSameChannel(SlashCommandInteractionEvent event) {
+    Member member = event.getMember();
+    GuildVoiceState memberVoiceState = member.getVoiceState();
+
+    if (!memberVoiceState.inAudioChannel()) {
+      event
+          .reply("You need to be in a voice channel")
+          .queue();
+      return false;
+    }
+
+    Member self = event
+        .getGuild()
+        .getSelfMember();
+    GuildVoiceState selfVoiceState = self.getVoiceState();
+
+    if (!selfVoiceState.inAudioChannel()) {
+      event
+          .reply("I am not in an audio channel")
+          .queue();
+      return false;
+    }
+
+    if (selfVoiceState.getChannel() != memberVoiceState.getChannel()) {
+      event
+          .reply("You are not in the same channel as me")
+          .queue();
+      return false;
+    }
+
+    return true;
   }
 
 }

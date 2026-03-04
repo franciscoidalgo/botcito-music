@@ -58,4 +58,12 @@ public class TrackScheduler extends AudioEventAdapter {
     return fullQueue;
   }
 
+  public int getVolume() {
+    return this.audioPlayer.getVolume();
+  }
+
+  public void setVolume(int volume) {
+    this.audioPlayer.setVolume(volume);
+  }
+
 }

@@ -1,22 +1,15 @@
-package com.frappu.module.music.command;
+package com.frappu.module.music.command.play;
 
 import com.frappu.app.command.ICommand;
+import com.frappu.app.command.IOption;
 import com.frappu.module.music.player.MusicManagers;
 import com.frappu.utils.BotUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
-import java.util.List;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class Play implements ICommand {
-
-  private static final List<OptionData> OPTIONS =
-      Collections.singletonList(
-          new OptionData(OptionType.STRING, "query", "Name of the song or url", true));
 
   @Override
   public String getName() {
@@ -29,14 +22,14 @@ public class Play implements ICommand {
   }
 
   @Override
-  public List<OptionData> getOptions() {
-    return OPTIONS;
+  public IOption[] getOptions() {
+    return PlayOptions.values();
   }
 
   @Override
   public void execute(SlashCommandInteractionEvent event) {
     String name = event
-        .getOption("query")
+        .getOption(PlayOptions.QUERY.getName())
         .getAsString();
     boolean isSearch = false;
     try {

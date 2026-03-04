@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class Help implements ICommand {
 
@@ -29,11 +28,6 @@ public class Help implements ICommand {
   @Override
   public String getDescription() {
     return "Ayudame loco";
-  }
-
-  @Override
-  public List<OptionData> getOptions() {
-    return null;
   }
 
   @Override

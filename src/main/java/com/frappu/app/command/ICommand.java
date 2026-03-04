@@ -1,9 +1,7 @@
 package com.frappu.app.command;
 
-import java.util.List;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public interface ICommand {
 
@@ -11,7 +9,9 @@ public interface ICommand {
 
   String getDescription();
 
-  List<OptionData> getOptions();
+  default IOption[] getOptions() {
+    return IOption.EMPTY;
+  }
 
   void execute(SlashCommandInteractionEvent event);
 
