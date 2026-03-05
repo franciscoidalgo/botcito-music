@@ -6,10 +6,12 @@ import com.frappu.module.music.player.MusicManagers;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import jakarta.inject.Singleton;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+@Singleton
 public class Queue implements ICommand {
 
   @Override

@@ -45,10 +45,8 @@ public class CommandManager extends ListenerAdapter {
         .onSelection(event);
   }
 
-  public void addCommands(ICommand... newCommands) {
-    for (ICommand command : newCommands) {
-      this.commands.put(command.getName(), command);
-    }
+  public void addCommand(ICommand command) {
+    this.commands.put(command.getName(), command);
   }
 
   private void configureGuildCommands(Guild guild) {

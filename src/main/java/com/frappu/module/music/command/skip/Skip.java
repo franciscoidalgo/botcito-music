@@ -6,9 +6,11 @@ import com.frappu.module.music.player.MusicManagers;
 import com.frappu.module.music.player.TrackScheduler;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
+import jakarta.inject.Singleton;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+@Singleton
 public class Skip implements ICommand {
 
   @Override

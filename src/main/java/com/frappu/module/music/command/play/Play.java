@@ -4,11 +4,13 @@ import com.frappu.app.command.ICommand;
 import com.frappu.app.command.IOption;
 import com.frappu.module.music.player.MusicManagers;
 import com.frappu.utils.BotUtils;
+import jakarta.inject.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 
+@Singleton
 public class Play implements ICommand {
 
   @Override
@@ -18,7 +20,7 @@ public class Play implements ICommand {
 
   @Override
   public String getDescription() {
-    return "Play music";
+    return "Mandale mecha";
   }
 
   @Override

@@ -7,9 +7,11 @@ import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import jakarta.inject.Singleton;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+@Singleton
 public class Show implements ICommand {
 
   @Override
@@ -21,7 +23,7 @@ public class Show implements ICommand {
   public String getDescription() {
     return "Que onda";
   }
-  
+
   @Override
   public void execute(SlashCommandInteractionEvent event) {
     if (!BotUtils.validateIsInSameChannel(event)) {

@@ -1,11 +1,15 @@
 package com.frappu;
 
 import com.frappu.module.music.MusicModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class Main {
 
-  public static void main(String[] args) {
-    Botcito.run(new MusicModule());
+  static void main() {
+    Injector injector = Guice.createInjector(new MusicModule());
+    Botcito botcito = injector.getInstance(Botcito.class);
+    botcito.run();
   }
 
 }

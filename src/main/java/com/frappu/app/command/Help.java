@@ -1,23 +1,17 @@
 package com.frappu.app.command;
 
-import com.frappu.app.IModule;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class Help implements ICommand {
 
-  private final List<ICommand> commands;
+  private final Set<ICommand> commands;
 
-  public Help(IModule... modules) {
-    this.commands = Arrays
-        .stream(modules)
-        .map(IModule::getCommands)
-        .flatMap(Arrays::stream)
-        .toList();
+  public Help(Set<ICommand> commands) {
+    this.commands = commands;
   }
 
   @Override

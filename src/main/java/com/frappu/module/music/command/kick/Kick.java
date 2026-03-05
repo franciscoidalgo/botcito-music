@@ -2,9 +2,11 @@ package com.frappu.module.music.command.kick;
 
 import com.frappu.app.command.ICommand;
 import com.frappu.utils.BotUtils;
+import jakarta.inject.Singleton;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+@Singleton
 public class Kick implements ICommand {
 
   @Override

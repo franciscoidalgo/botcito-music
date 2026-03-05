@@ -24,6 +24,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.18")
     implementation 'org.apache.commons:commons-lang3:3.17.0'
     implementation("club.minnced:jdave-api:$libdave_version")
+    implementation("com.google.inject:guice:$guice_version")
 
     implementation("club.minnced:jdave-native-win-x86-64:$libdave_version")
 

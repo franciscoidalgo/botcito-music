@@ -7,10 +7,12 @@ import com.frappu.module.music.player.MusicManagers;
 import com.frappu.module.music.player.TrackScheduler;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
+import jakarta.inject.Singleton;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
+@Singleton
 public class Volume implements ICommand {
 
   @Override
@@ -56,7 +58,7 @@ public class Volume implements ICommand {
     EmbedBuilder embedBuilder = BotUtils
         .buildEmbed(BotColor.WARN)
         .setTitle("Volume")
-        .setDescription("Volume set to %d".formatted(volume));
+        .setDescription("Volume set to `%d`".formatted(volume));
     event
         .replyEmbeds(embedBuilder.build())
         .queue();
