@@ -45,7 +45,7 @@ public class Volume implements ICommand {
       EmbedBuilder embedBuilder = BotUtils
           .buildEmbed(BotColor.INFO)
           .setTitle("Volume")
-          .setDescription("Current volume is %d".formatted(trackScheduler.getVolume()));
+          .setDescription("Current volume is `%d`".formatted(trackScheduler.getVolume()));
       event
           .replyEmbeds(embedBuilder.build())
           .queue();
