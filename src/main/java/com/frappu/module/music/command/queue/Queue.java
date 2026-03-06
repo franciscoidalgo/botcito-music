@@ -46,8 +46,7 @@ public class Queue implements ICommand {
     EmbedBuilder embedBuilder = BotUtils
         .buildEmbed(BotColor.INFO)
         .setTitle("Queue")
-        .setDescription("1. " + audioTrack
-            .getInfo().title);
+        .setDescription("1. ▶ %s".formatted(BotUtils.getSongLabel(audioTrack.getInfo())));
     for (int i = 1; i < queue.size(); i++) {
       audioTrack = queue.get(i);
       embedBuilder.appendDescription("\n" + (i + 1) + ". " + BotUtils.getSongLabel(audioTrack.getInfo()));
