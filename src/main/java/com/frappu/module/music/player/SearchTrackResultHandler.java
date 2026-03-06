@@ -31,13 +31,19 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
 
   @Override
   public void trackLoaded(AudioTrack audioTrack) {
-    this.musicManager.getTrackScheduler().addToQueue(audioTrack);
+    TrackScheduler trackScheduler = this.musicManager.getTrackScheduler();
+    String message = trackScheduler.isPlaying() ? "Added to queue" : "Playing";
+    trackScheduler.addToQueue(audioTrack);
     AudioTrackInfo info = audioTrack.getInfo();
     EmbedBuilder embedBuilder =
-        BotUtils.buildEmbed(BotColor.OK)
-            .setTitle("Playing")
+        BotUtils
+            .buildEmbed(BotColor.OK)
+            .setTitle(message)
             .setDescription(BotUtils.getSongLabel(info));
-    this.event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
+    this.event
+        .getHook()
+        .sendMessageEmbeds(embedBuilder.build())
+        .queue();
   }
 
   @Override
@@ -51,12 +57,18 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
 
   @Override
   public void noMatches() {
-    this.event.getHook().sendMessage("No track found").queue();
+    this.event
+        .getHook()
+        .sendMessage("No track found")
+        .queue();
   }
 
   @Override
   public void loadFailed(FriendlyException e) {
-    this.event.getHook().sendMessage("There was an error loading the track").queue();
+    this.event
+        .getHook()
+        .sendMessage("There was an error loading the track")
+        .queue();
     log.error("Error loading track", e);
   }
 
@@ -80,11 +92,18 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
   }
 
   public void queuePlaylist(AudioPlaylist audioPlaylist, TrackScheduler trackScheduler) {
-    audioPlaylist.getTracks().forEach(trackScheduler::addToQueue);
+    audioPlaylist
+        .getTracks()
+        .forEach(trackScheduler::addToQueue);
     EmbedBuilder embedBuilder =
-        BotUtils.buildEmbed(BotColor.INFO)
+        BotUtils
+            .buildEmbed(BotColor.INFO)
             .setTitle("Playing")
             .setDescription(BotUtils.getPlaylistLabel(audioPlaylist));
-    this.event.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
+    this.event
+        .getHook()
+        .sendMessageEmbeds(embedBuilder.build())
+        .queue();
   }
+
 }

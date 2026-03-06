@@ -27,13 +27,13 @@ public class SelectTrackResultHandler implements AudioLoadResultHandler {
 
   @Override
   public void trackLoaded(AudioTrack audioTrack) {
-    this.musicManager
-        .getTrackScheduler()
-        .addToQueue(audioTrack);
+    TrackScheduler trackScheduler = this.musicManager.getTrackScheduler();
+    String message = trackScheduler.isPlaying() ? "Added to queue" : "Playing";
+    trackScheduler.addToQueue(audioTrack);
     AudioTrackInfo info = audioTrack.getInfo();
     EmbedBuilder embedBuilder = BotUtils
         .buildEmbed(BotColor.OK)
-        .setTitle("Playing")
+        .setTitle(message)
         .setDescription(BotUtils.getSongLabel(info));
     this.event
         .getHook()

@@ -66,4 +66,8 @@ public class TrackScheduler extends AudioEventAdapter {
     this.audioPlayer.setVolume(volume);
   }
 
+  public boolean isPlaying() {
+    return this.audioPlayer.getPlayingTrack() != null;
+  }
+
 }
