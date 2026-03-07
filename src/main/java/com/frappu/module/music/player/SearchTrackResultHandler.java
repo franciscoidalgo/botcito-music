@@ -86,7 +86,7 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
         });
     this.event
         .getHook()
-        .sendMessage("Choose a song")
+        .sendMessage("Choose a song:")
         .addComponents(ActionRow.of(selectMenu.build()))
         .queue();
   }
