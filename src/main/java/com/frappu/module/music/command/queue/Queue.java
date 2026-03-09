@@ -2,10 +2,11 @@ package com.frappu.module.music.command.queue;
 
 import com.frappu.app.command.ICommand;
 import com.frappu.module.music.player.GuildMusicManager;
-import com.frappu.module.music.player.MusicManagers;
+import com.frappu.module.music.player.MusicManager;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -13,6 +14,13 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 @Singleton
 public class Queue implements ICommand {
+
+  private final MusicManager musicManager;
+
+  @Inject
+  public Queue(MusicManager musicManager) {
+    this.musicManager = musicManager;
+  }
 
   @Override
   public String getName() {
@@ -30,9 +38,7 @@ public class Queue implements ICommand {
       return;
     }
 
-    GuildMusicManager guildMusicManager = MusicManagers
-        .get()
-        .getGuildMusicManager(event.getGuild());
+    GuildMusicManager guildMusicManager = this.musicManager.getGuildMusicManager(event.getGuild());
     List<AudioTrack> queue = guildMusicManager
         .getTrackScheduler()
         .getQueue();

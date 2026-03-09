@@ -2,8 +2,9 @@ package com.frappu.module.music.command.play;
 
 import com.frappu.app.command.ICommand;
 import com.frappu.app.command.IOption;
-import com.frappu.module.music.player.MusicManagers;
+import com.frappu.module.music.player.MusicManager;
 import com.frappu.utils.BotUtils;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,6 +13,13 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 
 @Singleton
 public class Play implements ICommand {
+
+  private final MusicManager musicManager;
+
+  @Inject
+  public Play(MusicManager musicManager) {
+    this.musicManager = musicManager;
+  }
 
   @Override
   public String getName() {
@@ -47,8 +55,7 @@ public class Play implements ICommand {
     event
         .deferReply()
         .queue();
-    MusicManagers musicManagers = MusicManagers.get();
-    musicManagers.play(event, name);
+    this.musicManager.play(event, name);
   }
 
   @Override
@@ -65,8 +72,7 @@ public class Play implements ICommand {
     event
         .deferReply()
         .queue();
-    MusicManagers musicManagers = MusicManagers.get();
-    musicManagers.play(event, selectedUri);
+    this.musicManager.play(event, selectedUri);
   }
 
 }

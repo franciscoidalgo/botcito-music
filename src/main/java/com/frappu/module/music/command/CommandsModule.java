@@ -1,4 +1,4 @@
-package com.frappu.module.music;
+package com.frappu.module.music.command;
 
 import com.frappu.app.command.ICommand;
 import com.frappu.module.music.command.kick.Kick;
@@ -9,40 +9,41 @@ import com.frappu.module.music.command.show.Show;
 import com.frappu.module.music.command.skip.Skip;
 import com.frappu.module.music.command.stop.Stop;
 import com.frappu.module.music.command.volume.Volume;
+import com.frappu.module.music.player.MusicManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.ProvidesIntoSet;
 
-public class MusicModule extends AbstractModule {
+public class CommandsModule extends AbstractModule {
 
   @ProvidesIntoSet
-  ICommand play() {
-    return new Play();
+  ICommand play(MusicManager musicManager) {
+    return new Play(musicManager);
   }
 
   @ProvidesIntoSet
-  ICommand pause() {
-    return new Pause();
+  ICommand pause(MusicManager musicManager) {
+    return new Pause(musicManager);
   }
 
 
   @ProvidesIntoSet
-  ICommand stop() {
-    return new Stop();
+  ICommand stop(MusicManager musicManager) {
+    return new Stop(musicManager);
   }
 
   @ProvidesIntoSet
-  ICommand skip() {
-    return new Skip();
+  ICommand skip(MusicManager musicManager) {
+    return new Skip(musicManager);
   }
 
   @ProvidesIntoSet
-  ICommand queue() {
-    return new Queue();
+  ICommand queue(MusicManager musicManager) {
+    return new Queue(musicManager);
   }
 
   @ProvidesIntoSet
-  ICommand show() {
-    return new Show();
+  ICommand show(MusicManager musicManager) {
+    return new Show(musicManager);
   }
 
   @ProvidesIntoSet
@@ -51,8 +52,8 @@ public class MusicModule extends AbstractModule {
   }
 
   @ProvidesIntoSet
-  ICommand volume() {
-    return new Volume();
+  ICommand volume(MusicManager musicManager) {
+    return new Volume(musicManager);
   }
 
 

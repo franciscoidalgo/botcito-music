@@ -2,7 +2,7 @@ package com.frappu.module.music.command.skip;
 
 import com.frappu.app.command.ICommand;
 import com.frappu.module.music.player.GuildMusicManager;
-import com.frappu.module.music.player.MusicManagers;
+import com.frappu.module.music.player.MusicManager;
 import com.frappu.module.music.player.TrackScheduler;
 import com.frappu.utils.BotColor;
 import com.frappu.utils.BotUtils;
@@ -12,6 +12,12 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 @Singleton
 public class Skip implements ICommand {
+
+  private final MusicManager musicManager;
+
+  public Skip(MusicManager musicManager) {
+    this.musicManager = musicManager;
+  }
 
   @Override
   public String getName() {
@@ -29,9 +35,7 @@ public class Skip implements ICommand {
       return;
     }
 
-    GuildMusicManager guildMusicManager = MusicManagers
-        .get()
-        .getGuildMusicManager(event.getGuild());
+    GuildMusicManager guildMusicManager = this.musicManager.getGuildMusicManager(event.getGuild());
     TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
     trackScheduler.skip();
     EmbedBuilder embedBuilder = BotUtils
