@@ -7,7 +7,9 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
@@ -75,15 +77,19 @@ public class SearchTrackResultHandler implements AudioLoadResultHandler {
   public void showOptionsMenu(List<AudioTrack> tracks) {
     List<AudioTrack> audioOptions = tracks.subList(0, 5);
     StringSelectMenu.Builder selectMenu = StringSelectMenu.create(this.event.getName());
-    audioOptions.forEach(
-        audioTrack -> {
-          AudioTrackInfo trackInfo = audioTrack.getInfo();
-          String label = BotUtils.getSongLabel(trackInfo);
-          if (label.length() >= 100) {
-            label = label.substring(0, 99);
-          }
-          selectMenu.addOption(label, trackInfo.uri);
-        });
+    Set<String> usedIdentifiers = new HashSet<>(5);
+    for (AudioTrack audioTrack : audioOptions) {
+      if (usedIdentifiers.contains(audioTrack.getIdentifier())) {
+        continue;
+      }
+      AudioTrackInfo trackInfo = audioTrack.getInfo();
+      String label = BotUtils.getSongLabel(trackInfo);
+      if (label.length() >= 100) {
+        label = label.substring(0, 99);
+      }
+      selectMenu.addOption(label, trackInfo.uri);
+      usedIdentifiers.add(audioTrack.getIdentifier());
+    }
     this.event
         .getHook()
         .sendMessage("Choose a song:")
